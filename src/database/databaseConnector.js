@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const { DB_CONNECTION_STRING } = require('../utilities/ServerConfig');
+const { DB_CONNECTION_STRING } = require("../utilities/ServerConfig");
 
 const connectToDatabase = async () => {
   try {
@@ -11,5 +11,3 @@ const connectToDatabase = async () => {
 };
 
 module.exports = connectToDatabase;
-
-
