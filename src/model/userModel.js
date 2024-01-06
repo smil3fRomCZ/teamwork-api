@@ -1,5 +1,5 @@
-const { randomUUID } = require("crypto");
 const { Schema, default: mongoose } = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const userSchema = new Schema({
   firstName: {
@@ -39,10 +39,14 @@ const userSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  registrationLink: {
-    type: "UUID",
-    default: () => randomUUID(),
-  },
+});
+
+userSchema.pre("save", async function (next) {
+  const providedPassword = this.password;
+  const salt = await bcrypt.genSalt(8);
+  const hashedPassword = await bcrypt.hash(providedPassword, salt);
+  this.password = hashedPassword;
+  next();
 });
 
 module.exports = mongoose.model("User", userSchema);
